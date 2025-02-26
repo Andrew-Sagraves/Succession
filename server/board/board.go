@@ -10,4 +10,7 @@ type Board struct {
 	Cities   []City
 	Villages []Village
 	Forts    []Fort
+
+	Player1 Player
+	Player2 Player
 }
