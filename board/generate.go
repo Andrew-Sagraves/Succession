@@ -7,6 +7,7 @@ import (
 
 var used [48][128]bool
 
+// Note: this generator kindof breaks down at larger numbers. However, it works great for our map size
 func recursive_generate_foundation(b *base, x int, y int, f Foundation) {
 	used[x][y] = true
 
