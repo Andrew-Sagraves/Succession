@@ -8,6 +8,7 @@ const (
 	Water
 )
 
+// type of land/water
 type Biome int
 
 const (
@@ -17,6 +18,7 @@ const (
 	In_Water
 )
 
+// Cell combines Foundation and Biome into one type
 type Cell struct {
 	Foundation Foundation
 	Biome      Biome

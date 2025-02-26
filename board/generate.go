@@ -7,7 +7,7 @@ import (
 
 var used [48][128]bool
 
-// Note: this generator kindof breaks down at larger numbers. However, it works great for our map size
+// generates land/water for board struct
 func recursive_generate_foundation(b *base, x int, y int, f Foundation) {
 	used[x][y] = true
 
@@ -63,6 +63,8 @@ func recursive_generate_foundation(b *base, x int, y int, f Foundation) {
 	}
 
 }
+
+// generates the biome. If the foundation is water, do not implement biome
 func recursive_generate_biome(b *base, x int, y int, f Biome) {
 	used[x][y] = true
 	var ag_percent = 0.9
@@ -129,6 +131,8 @@ jump:
 	}
 
 }
+
+// generates all cities and towns
 func recursive_generate_populations(b *Board, x int, y int, n int) {
 	used[x][y] = true
 	var city_percent = 0.998
@@ -181,6 +185,8 @@ jump:
 	}
 
 }
+
+// basic print function for debugging
 func Print_board_foundation_test(b Board) {
 	for i := 0; i < 48; i++ {
 		for j := 0; j < 128; j++ {
@@ -194,6 +200,7 @@ func Print_board_foundation_test(b Board) {
 	}
 }
 
+// basic print for debugging
 func Print_board_biome_test(b Board) {
 	for i := 0; i < 48; i++ {
 		for j := 0; j < 128; j++ {
@@ -211,6 +218,7 @@ func Print_board_biome_test(b Board) {
 	}
 }
 
+// base function that calls all recurive functions
 func Generate_board() Board {
 
 	var b Board
@@ -228,16 +236,18 @@ func Generate_board() Board {
 			used[i][j] = false
 		}
 	}
-
+	// generate biomes
 	b.Base[x][y].Biome = Field
 	recursive_generate_biome(&b.Base, x, y, Field)
 
+	// set used to false
 	for i := range used {
 		for j := range used[i] {
 			used[i][j] = false
 		}
 	}
 
+	// generate all cities/villages
 	recursive_generate_populations(&b, x, y, 10)
 	return b
 
