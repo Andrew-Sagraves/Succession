@@ -1,7 +1,7 @@
 package main
 
 import (
-	"succession/board"
+	"succession/server/board"
 	// "succession/render"
 )
 

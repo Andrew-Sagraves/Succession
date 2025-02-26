@@ -11,6 +11,6 @@ type Board struct {
 	Villages []Village
 	Forts    []Fort
 
-	Player1 Player
-	Player2 Player
+	//Player1 Player
+	//Player2 Player
 }
