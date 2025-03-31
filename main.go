@@ -1,11 +1,13 @@
 package main
 
 import (
-// "succession/server/board"
-// "succession/render"
+	"succession/server/board"
+	// "succession/render"
 )
 
 func main() {
+	b := board.Generate_board()
+	board.Print_board_biome_test(b)
 
 	// this is all pseudocode, and feel free to put any testing code above, but this will outline the game
 	// loop for the game...
