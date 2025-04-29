@@ -5,12 +5,12 @@ import  (
 	"log"
 )
 
-func SetColors (b *Board) {
+func SetColors (b *Board) tcell.Screen{
 	screen, err := tcell.NewScreen()
 	if err != nil { // If screen is not initialized
 		log.Fatal(err) 
 	}
-	defer screen.Fini() // Function used to clean up the screen
+	// defer screen.Fini() // Function used to clean up the screen
 	err = screen.Init() // Initializes the display
 	if err != nil {
 		log.Fatal(err)
@@ -25,14 +25,14 @@ func SetColors (b *Board) {
 			} else { 
 				if b.Base[i][j].Biome == Agriculture {
 					color := tcell.NewRGBColor(144, 238, 144)
-					screen.SetContent(i, j, ' ', nil, tcell.StyleDefault.Background(color))
+					screen.SetContent(i, j, '*', nil, tcell.StyleDefault.Background(color))
 
 				} else if b.Base[i][j].Biome == Field {
 					color := tcell.NewRGBColor(83, 128, 89)
-					screen.SetContent(i, j, ' ', nil, tcell.StyleDefault.Background(color))
+					screen.SetContent(i, j, ':', nil, tcell.StyleDefault.Background(color))
 				} else if b.Base[i][j].Biome == Woods {
 					color := tcell.NewRGBColor(63, 90, 54)
-					screen.SetContent(i, j, ' ', nil, tcell.StyleDefault.Background(color))
+					screen.SetContent(i, j, '^', nil, tcell.StyleDefault.Background(color))
 				} else {// Regular land is green
 					color := tcell.NewRGBColor(0, 255, 0)
 					screen.SetContent(i, j, ' ', nil, tcell.StyleDefault.Background(color))
@@ -41,7 +41,7 @@ func SetColors (b *Board) {
 			// Need to make a priority list for the different types of cells
 		}
 	}
-	screen.Show()
+	return screen
 }
 
 // Steps:
