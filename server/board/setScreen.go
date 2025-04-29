@@ -6,6 +6,16 @@ import  (
 )
 
 func SetColors (b *Board) tcell.Screen{
+	cityMap := make(map[[2]int]City)
+	villageMap := make(map[[2]int]Village)
+	for _, city := range b.Cities { // Sending all of the cities to a map for later use
+		cityLocation := [2]int{city.X(), city.Y()}
+		cityMap[cityLocation] = city
+	}
+	for _, village := range b.Villages { // Sending all of the cities to a map for later use
+		villageLocation := [2]int{village.X(), village.Y()}
+		villageMap[villageLocation] = village
+	}
 	screen, err := tcell.NewScreen()
 	if err != nil { // If screen is not initialized
 		log.Fatal(err) 
@@ -19,11 +29,18 @@ func SetColors (b *Board) tcell.Screen{
 	// Loop through the original board
 	for i := 0; i < 48; i++ {
 		for j := 0; j < 128; j++ {
+			currentLocation := [2]int{i,j}
 			if b.Base[i][j].Foundation == Water { // Water is blue
 				color := tcell.NewRGBColor(0, 0, 255)
 				screen.SetContent(i, j, ' ', nil, tcell.StyleDefault.Background(color))
 			} else { 
-				if b.Base[i][j].Biome == Agriculture {
+				if _, city := cityMap[currentLocation]; city { // Checks if a city exists in this specific vertex
+					color := tcell.NewRGBColor(0, 0, 0)
+					screen.SetContent(i, j, 'C', nil, tcell.StyleDefault.Background(color))
+				}else if _, village := villageMap[currentLocation]; village{
+					color := tcell.NewRGBColor(190,100,0)
+					screen.SetContent(i, j, 'V', nil, tcell.StyleDefault.Background(color))
+				}else if b.Base[i][j].Biome == Agriculture {
 					color := tcell.NewRGBColor(144, 238, 144)
 					screen.SetContent(i, j, '*', nil, tcell.StyleDefault.Background(color))
 
