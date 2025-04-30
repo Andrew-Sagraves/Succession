@@ -1,13 +1,17 @@
 package main
 
 import (
-	"succession/server/board"
-	// "succession/render"
+	// "fmt"
+	// "log"
+	"cs302/final_project/Succession/server/board"
+	// "github.com/gdamore/tcell/v2"
+	// "time"
 )
 
 func main() {
-	b := board.Generate_board()
-	board.Print_board_biome_test(b)
+	var gameBoard board.Board = board.Generate_board() // Generating a board for gameplay usage
+	newScreen := board.SetColors(&gameBoard)
+	newScreen.Show()
 
 	// this is all pseudocode, and feel free to put any testing code above, but this will outline the game
 	// loop for the game...
