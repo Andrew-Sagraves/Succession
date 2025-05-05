@@ -9,7 +9,6 @@ type Batallion struct {
 	allegiance  int
 	fitness     int
 	food        int
-	commander   Commander
 	speed       int
 }
 
@@ -27,9 +26,6 @@ func (b *Batallion) Fitness() int {
 }
 func (b *Batallion) Food() int {
 	return b.food
-}
-func (b *Batallion) Commander() Commander {
-	return b.commander
 }
 func (b *Batallion) Speed() int {
 	return b.speed
