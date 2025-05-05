@@ -11,7 +11,6 @@ type Board struct {
 	cityMap  	map[[2]int]City
 	Villages 	[]Village
 	villageMap 	map[[2]int]Village
-	Forts    	[]Fort
 
 	//Player1 Player
 	//Player2 Player
