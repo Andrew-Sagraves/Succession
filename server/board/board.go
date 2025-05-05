@@ -7,9 +7,11 @@ type base [48][128]Cell
 type Board struct {
 	Base base
 
-	Cities   []City
-	Villages []Village
-	Forts    []Fort
+	Cities   	[]City
+	cityMap  	map[[2]int]City
+	Villages 	[]Village
+	villageMap 	map[[2]int]Village
+	Forts    	[]Fort
 
 	//Player1 Player
 	//Player2 Player
