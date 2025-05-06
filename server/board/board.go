@@ -6,7 +6,8 @@ type base [48][128]Cell
 // this struct has all information owned by the server
 type Board struct {
 	Base base
-
+	Batallions []Batallion
+	batallionMap map[[2]int]Batallion
 	Cities   	[]City
 	cityMap  	map[[2]int]City
 	Villages 	[]Village
