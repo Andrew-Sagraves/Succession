@@ -8,6 +8,7 @@ import (
 func SetColors(b *Board) tcell.Screen {
 	b.cityMap = make(map[[2]int]City)
 	b.villageMap = make(map[[2]int]Village)
+	b.batallionMap = make(map[[2]int]Batallion)
 	for _, city := range b.Cities { // Sending all of the cities to a map for later use
 		cityLocation := [2]int{city.X(), city.Y()}
 		b.cityMap[cityLocation] = city
@@ -15,6 +16,10 @@ func SetColors(b *Board) tcell.Screen {
 	for _, village := range b.Villages { // Sending all of the cities to a map for later use
 		villageLocation := [2]int{village.X(), village.Y()}
 		b.villageMap[villageLocation] = village
+	}
+	for _, batallion := range b.Batallions {
+		batallionLocation := [2]int {batallion.X(), batallion.Y()}
+		b.batallionMap[batallionLocation] = batallion
 	}
 	screen, err := tcell.NewScreen()
 	if err != nil { // If screen is not initialized
@@ -43,7 +48,11 @@ func SetColors(b *Board) tcell.Screen {
 					color := tcell.NewRGBColor(190, 100, 0)
 					screen.SetContent(j, i, 'V', nil, tcell.StyleDefault.Background(color))
 					screen.SetContent(j+1, i, 'V', nil, tcell.StyleDefault.Background(color))
-				} else if b.Base[i][j].Biome == Agriculture {
+				} else if _, batallion := b.batallionMap[currentLocation]; batallion {
+					color := tcell.NewRGBColor(0, 0, 128)
+					screen.SetContent(j, i, 'B', nil, tcell.StyleDefault.Background(color))
+					screen.SetContent(j+1, i, 'B', nil, tcell.StyleDefault.Background(color))
+				}else if b.Base[i][j].Biome == Agriculture {
 					color := tcell.NewRGBColor(144, 238, 144)
 					screen.SetContent(j, i, '*', nil, tcell.StyleDefault.Background(color))
 					screen.SetContent(j+1, i, '*', nil, tcell.StyleDefault.Background(color))
@@ -63,40 +72,15 @@ func SetColors(b *Board) tcell.Screen {
 	return screen
 }
 
+func returnCityMap(b *Board) map[[2]int]City {
+	return b.cityMap
+} 
+func returnVillageMap(b *Board) map[[2]int]Village {
+	return b.villageMap
+} 
+
 // Steps:
 // Step 1: Take in the game board, and edit all of the game board indices with a color
 //		- Go basic first, just make colorBoard land and water
 //		- Assign specific colors to specific tiles
 //		- Make biomes different shades
-// Step 2: Try to layer a mouseinput board over the color board
-
-// Main Code for testing
-// screen, err := tcell.NewScreen()
-// 	if err != nil { // If screen is not initialized
-// 		log.Fatal(err)
-// 	}
-// 	defer screen.Fini() // Function used to clean up the screen
-// 	err = screen.Init() // Initializes the display
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	running := true
-// 	for running {
-// 		// Draw Logic
-// 		screen.Clear()
-
-// 		screen.SetContent(0, 0, '@', nil, tcell.StyleDefault)
-
-// 		screen.Show()
-
-// 		ev := screen.PollEvent()
-
-// 		switch ev := ev.(type) {
-// 		case *tcell.EventKey:
-// 			switch ev.Rune() {
-// 			case 'q':
-// 				running = false
-// 			}
-// 		}
-// 	}
