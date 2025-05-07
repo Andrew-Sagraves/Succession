@@ -226,7 +226,7 @@ func Generate_board() Board {
 	var x int = rand.Intn(47)
 	var y int = rand.Intn(127)
 
-	b.Batallion = generate_batallion(x, y, 1)
+	b.Batallions[0] = generate_batallion(x, y, 1)
 
 	// generate the foundation of the board
 	b.Base[x][y].Foundation = Land
