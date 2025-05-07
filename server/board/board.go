@@ -7,7 +7,7 @@ type base [48][128]Cell
 type Board struct {
 	Base base
 	Batallions []Batallion
-	batallionMap map[[2]int]City
+	batallionMap map[[2]int]Batallion
 	Cities   	[]City
 	cityMap  	map[[2]int]City
 	Villages 	[]Village
