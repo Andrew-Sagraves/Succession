@@ -1,48 +1,80 @@
 package main
 
 import (
-	"fmt"
 	// "log"
 	"cs302/final_project/Succession/server/board"
-	"os"
-	"os/exec"
-	// "github.com/gdamore/tcell/v2"
-	// "time"
+	"github.com/gdamore/tcell/v2"
+	"time"
 )
+
+func compare(b board.Batallion, c []board.City) int {
+	for i := 0; i < len(c); i++ {
+		if b.X() == c[i].X() && b.Y() == c[i].Y() {
+			return i
+		}
+	}
+	return -1
+}
 
 func main() {
 	var gameBoard board.Board = board.Generate_board() // Generating a board for gameplay usage
-	newScreen := board.SetColors(&gameBoard)
-	// newScreen.Show()
-	cmd := exec.Command("x-terminal-emulator", "-e", "tail -f /tmp/output.log")
-	cmd.Start()
-	file, err := os.Create("/tmp/output.log")
-	if err != nil {
-		fmt.Println("Error creating log file:", err)
-		return
-	}
-	defer file.Close()
+	screen := board.SetColors(&gameBoard)
+	screen.Show()
 	for {
-		newScreen.Show()
-		// newScreen.EnableMouse()
-		fmt.Println("Entered the loop")
-		mouse := newScreen.PollEvent()
-		switch mouse := mouse.(type) {
-		case *tcell.EventMouse:
-			x, y := mouse.Position()
-			buttons := mouse.Buttons()
-			_, err := fmt.Fprintf(file, "Mouse at (%d, %d) with buttons: %v\n", x, y, buttons)
-			if err != nil {
-				fmt.Println("Error writing to file:", err)
-			}
-			file.Sync()
+		input := screen.PollEvent()
+		switch input := input.(type) {
 		case *tcell.EventKey:
-			if mouse.Key() == tcell.KeyEscape {
+			switch input.Rune() {
+			case 'h':
+				gameBoard.Batallions[0].Left()
+				screen.Clear()
+				result := compare(gameBoard.Batallions[0], gameBoard.Cities)
+				if result != -1 {
+					gameBoard.Cities = append(gameBoard.Cities[:result], gameBoard.Cities[result+1:]...)
+				}
+				screen = board.SetColors(&gameBoard)
+				screen.Show()
+
+			case 'j':
+				gameBoard.Batallions[0].Up()
+				screen.Clear()
+				result := compare(gameBoard.Batallions[0], gameBoard.Cities)
+				if result != -1 {
+					gameBoard.Cities = append(gameBoard.Cities[:result], gameBoard.Cities[result+1:]...)
+				}
+				screen = board.SetColors(&gameBoard)
+				screen.Show()
+
+			case 'k':
+
+				gameBoard.Batallions[0].Down()
+				screen.Clear()
+				result := compare(gameBoard.Batallions[0], gameBoard.Cities)
+				if result != -1 {
+					gameBoard.Cities = append(gameBoard.Cities[:result], gameBoard.Cities[result+1:]...)
+				}
+				screen = board.SetColors(&gameBoard)
+				screen.Show()
+
+			case 'l':
+				gameBoard.Batallions[0].Right()
+				screen.Clear()
+
+				result := compare(gameBoard.Batallions[0], gameBoard.Cities)
+				if result != -1 {
+					gameBoard.Cities = append(gameBoard.Cities[:result], gameBoard.Cities[result+1:]...)
+				}
+				screen = board.SetColors(&gameBoard)
+				screen.Show()
+
+			case 'q':
 				return
-			} else {
-				fmt.Fprintf(file, "Key clicked!")
-				file.Sync()
 			}
+			if input.Key() == tcell.KeyCtrlC || input.Key() == tcell.KeyEscape {
+				return
+			}
+			time.Sleep(100 * time.Millisecond)
+
 		}
 	}
 
@@ -64,3 +96,4 @@ func main() {
 	// will check for input from the client, and then respond with any needed data. this should be done
 	// cocurrently
 }
+
