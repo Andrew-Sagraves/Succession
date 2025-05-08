@@ -4,10 +4,10 @@ import (
 	// "log"
 	"cs302/final_project/Succession/server/board"
 	"github.com/gdamore/tcell/v2"
-	"time"
+	// "time"
 )
 
-func compare(b board.Batallion, c []board.City) int {
+func compare(b board.Batallion, c []board.City) int { // Helper function used to check if a batallion is on a city
 	for i := 0; i < len(c); i++ {
 		if b.X() == c[i].X() && b.Y() == c[i].Y() {
 			return i
@@ -20,12 +20,12 @@ func main() {
 	var gameBoard board.Board = board.Generate_board() // Generating a board for gameplay usage
 	screen := board.SetColors(&gameBoard)
 	screen.Show()
-	for {
-		input := screen.PollEvent()
+	for { // main gameplay loop
+		input := screen.PollEvent() // Takes the first event that happens to the screen
 		switch input := input.(type) {
-		case *tcell.EventKey:
-			switch input.Rune() {
-			case 'h':
+		case *tcell.EventKey: // We are only taking in keyboard inputs
+			switch input.Rune() { // Classic switch statement logic with wasd movement
+			case 'a':
 				gameBoard.Batallions[0].Left()
 				screen.Clear()
 				result := compare(gameBoard.Batallions[0], gameBoard.Cities)
@@ -35,7 +35,7 @@ func main() {
 				screen = board.SetColors(&gameBoard)
 				screen.Show()
 
-			case 'j':
+			case 'w':
 				gameBoard.Batallions[0].Up()
 				screen.Clear()
 				result := compare(gameBoard.Batallions[0], gameBoard.Cities)
@@ -45,7 +45,7 @@ func main() {
 				screen = board.SetColors(&gameBoard)
 				screen.Show()
 
-			case 'k':
+			case 's':
 
 				gameBoard.Batallions[0].Down()
 				screen.Clear()
@@ -56,7 +56,7 @@ func main() {
 				screen = board.SetColors(&gameBoard)
 				screen.Show()
 
-			case 'l':
+			case 'd':
 				gameBoard.Batallions[0].Right()
 				screen.Clear()
 
@@ -73,8 +73,7 @@ func main() {
 			if input.Key() == tcell.KeyCtrlC || input.Key() == tcell.KeyEscape {
 				return
 			}
-			time.Sleep(100 * time.Millisecond)
-
+			// time.Sleep(time.Millisecond)
 		}
 	}
 
@@ -96,4 +95,3 @@ func main() {
 	// will check for input from the client, and then respond with any needed data. this should be done
 	// cocurrently
 }
-
