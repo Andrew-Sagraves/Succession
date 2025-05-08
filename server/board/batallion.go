@@ -26,11 +26,11 @@ func (b *Batallion) Right() {
 	b.y += 1
 }
 func (b *Batallion) Up() {
-	b.x += 1
+	b.x -= 1
 }
 
 func (b *Batallion) Down() {
-	b.x -= 1
+	b.x += 1
 }
 
 func (b *Batallion) Troop_count() int {
